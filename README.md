@@ -1,132 +1,173 @@
-# Impacto del conflicto Rusia-Ucrania en los precios de alimentos en Europa (2020-2025)
+# Impacto del conflicto Rusia-Ucrania en los precios de los alimentos en Europa (2020-2025)
 
 ## Descripción del proyecto
 
-Este proyecto tiene como objetivo analizar la evolución de los precios de alimentos en Europa durante el período 2020-2025, considerando como contexto el conflicto Rusia-Ucrania y sus posibles efectos sobre la inflación alimentaria.
+Este proyecto tiene como objetivo analizar la evolución de los precios de alimentos en Europa durante el período 2020-2025, considerando como contexto el conflicto Rusia-Ucrania y sus posibles efectos sobre los mercados alimentarios.
 
-El análisis se desarrolla utilizando el conjunto de datos World Food Programme Global Food Prices Database, el cual contiene registros históricos de precios de productos alimentarios en distintos países. Para este proyecto, el estudio se delimita a países europeos, precios expresados en USD y productos alimentarios disponibles dentro del período de análisis.
+El análisis utiliza información proveniente de la base de datos **World Food Programme Global Food Prices Database (WFP)**. El proyecto se desarrolla progresivamente mediante las fases definidas en la asignatura, incorporando procesos de obtención, limpieza, transformación, validación y análisis de datos utilizando herramientas del ecosistema científico de Python.
 
-Este repositorio corresponde a la Fase 1 del ABP, enfocada en la definición de la problemática, la organización inicial del entorno reproducible, la documentación técnica y la preparación del flujo de trabajo que será desarrollado en fases posteriores.
+Actualmente el repositorio contiene el desarrollo de las fases F1 y F2 del proyecto.
+
+---
 
 ## Objetivo general
 
-Analizar la evolución de los precios de alimentos en Europa durante el período 2020-2025 mediante herramientas de ciencia de datos, con el fin de identificar tendencias, diferencias entre países y posibles señales de inflación alimentaria asociadas al contexto del conflicto Rusia-Ucrania.
+Analizar la evolución de los precios de alimentos en países europeos disponibles dentro del conjunto de datos del WFP durante el período 2020-2025, con el fin de identificar tendencias y posibles efectos asociados al contexto del conflicto Rusia-Ucrania.
+
+---
 
 ## Objetivos específicos
 
-Organizar un entorno reproducible de trabajo mediante Git, GitHub, Jupyter Notebook y dependencias documentadas.
-Cargar y revisar inicialmente los archivos de datos del World Food Programme correspondientes al período 2020-2025.
-Identificar la estructura, dimensiones, tipos de variables y posibles problemas de calidad presentes en el dataset.
-Definir criterios iniciales de filtrado, limpieza, validación y estandarización para las fases posteriores.
-Documentar decisiones técnicas iniciales para asegurar trazabilidad y coherencia entre notebook, repositorio e informe.
+* Configurar un entorno reproducible utilizando Python, Git, GitHub y Jupyter Notebook.
+* Consolidar los archivos de datos correspondientes al período 2020-2025.
+* Realizar procesos de limpieza y validación del conjunto de datos.
+* Transformar variables relevantes para análisis temporal.
+* Filtrar los países europeos disponibles dentro de la cobertura del WFP.
+* Generar un dataset procesado para las siguientes fases de análisis exploratorio y evaluación de resultados.
+
+---
 
 ## Dataset
 
-Fuente de datos:
+**Fuente de datos:**
 
-World Food Programme Global Food Prices Database
+World Food Programme Global Food Prices Database (WFP)
 
-Criterios de filtrado del estudio:
+**Período analizado:**
 
-Región: Europa.
-Período: 2020-2025.
-Moneda: USD.
-Categoría: productos alimentarios.
+2020-2025
 
-Los archivos de datos se organizan por año y serán utilizados para construir una base consolidada que permita realizar análisis exploratorios y comparaciones temporales en fases posteriores.
+**Variables principales:**
+
+* País (`countryiso3`)
+* Fecha (`date`)
+* Mercado (`market`)
+* Categoría (`category`)
+* Producto (`commodity`)
+* Precio local (`price`)
+* Precio en USD (`usdprice`)
+
+---
 
 ## Tecnologías utilizadas
 
-Python 3.12
-Pandas
-NumPy
-Matplotlib
-Jupyter Notebook
-Git
-GitHub
+* Python 3.12
+* Pandas
+* NumPy
+* Matplotlib
+* Jupyter Notebook
+* Git
+* GitHub
+
+---
 
 ## Estructura del repositorio
-```text
-food-price-analysis/ 
-│ 
-├── README.md 
-├── requirements.txt 
-├── .gitignore 
-│ 
-└── F1/ 
-    ├── data/ 
-    │ ├── raw/ 
-    │ └── processed/ 
-    │ 
-    ├── notebooks/ 
-    │ └── F1_Definicion.ipynb 
-    │ 
-    ├── docs/ 
-    │ 
-    └── results/
-```
-## Descripción de carpetas y archivos
-
-. README.md: documento principal del repositorio. Describe el proyecto, objetivos, dataset, tecnologías, estructura y forma de reproducir el entorno.
-
-. requirements.txt: archivo que contiene las dependencias necesarias para ejecutar el proyecto en un entorno reproducible.
-
-. F1/data/raw/: carpeta destinada a almacenar los archivos originales del dataset.
-
-. F1/data/processed/: carpeta destinada a almacenar datos procesados o transformados en fases posteriores.
-
-. F1/notebooks/: carpeta que contiene los notebooks reproducibles del proyecto.
-
-. F1/docs/: carpeta destinada a documentación técnica, decisiones metodológicas, referencias y registros del proceso.
-
-. F1/results/: carpeta destinada a resultados preliminares, tablas, gráficos o salidas generadas durante el análisis.
-
-
-## Gestión de dependencias con requirements.txt
-
-El archivo `requirements.txt` registra las librerías necesarias para ejecutar el proyecto en un entorno reproducible. Su función es permitir que cualquier integrante del equipo pueda reconstruir el ambiente de trabajo desde cero e instalar las mismas dependencias utilizadas durante la Fase 1.
-
-En esta etapa, las dependencias principales son:
 
 ```text
-pandas>=2.0
-numpy>=2.0
-matplotlib>=3.0
-jupyter>=1.0
+food-price-analysis/
+│
+├── README.md
+├── requirements.txt
+├── .gitignore
+│
+├── F1/
+│   ├── data/
+│   ├── notebooks/
+│   ├── docs/
+│   └── results/
+│
+└── F2/
+    ├── data/
+    │   └── processed/
+    ├── notebooks/
+    │   └── F2_Preprocesamiento.ipynb
+    ├── docs/
+    ├── results/
+    └── src/
 ```
+
+---
+
+## Fase 1: Definición del proyecto
+
+Durante esta fase se definió la problemática, el alcance, los objetivos y la estructura técnica del proyecto. Además, se configuró el entorno reproducible mediante Git, GitHub, Jupyter Notebook y gestión de dependencias.
+
+**Notebook principal:**
+
+* `F1/notebooks/F1_Definicion.ipynb`
+
+---
+
+## Fase 2: Preprocesamiento y validación de datos
+
+Durante esta fase se implementó un pipeline reproducible de procesamiento de datos que incluye:
+
+* Carga automatizada de archivos CSV.
+* Consolidación de datos 2020-2025.
+* Revisión de calidad de datos.
+* Detección de valores faltantes.
+* Conversión de fechas.
+* Creación de variables temporales.
+* Filtrado de países europeos.
+* Limpieza de registros con valores faltantes críticos.
+* Validación del dataset resultante.
+* Exportación de una versión procesada del conjunto de datos.
+
+**Notebook principal:**
+
+* `F2/notebooks/F2_Preprocesamiento.ipynb`
+
+**Dataset generado:**
+
+* `F2/data/processed/wfp_europe_2020_2025_clean.csv`
+
+---
+
+## Reproducibilidad
+
+### Crear entorno virtual
+
+```bash
+python -m venv .venv
+```
+
+### Activar entorno
+
+Windows:
+
+```bash
+.venv\Scripts\activate
+```
+
+### Instalar dependencias
+
+```bash
+pip install -r requirements.txt
+```
+
+### Ejecutar notebooks
+
+Abrir Jupyter Notebook o PyCharm y ejecutar los notebooks correspondientes a cada fase.
+
+---
 
 ## Control de versiones
 
-El proyecto utiliza Git y GitHub para asegurar trazabilidad y colaboración. La rama main se mantiene como versión estable del proyecto. Las modificaciones se realizan en ramas secundarias, como:
+El proyecto utiliza Git y GitHub para garantizar trazabilidad y reproducibilidad.
 
-feature/fase1-fabian
+Ejemplos de commits realizados durante el desarrollo:
 
-Esta estrategia permite aislar los cambios, documentar avances mediante commits descriptivos y revisar las modificaciones antes de integrarlas a la rama principal mediante Pull Request.
+* Inicializa estructura del proyecto.
+* Implementa notebook F1 definición.
+* Actualiza dependencias para entorno reproducible.
+* Implementa pipeline de preprocesamiento y validación F2.
 
-Ejemplos de mensajes de commit utilizados o proyectados:
+---
 
-docs: mejora README con instrucciones de reproducibilidad
-notebook: agrega decisiones tecnicas y validacion inicial
-build: actualiza dependencias utilizadas en Fase 1
-docs: registra limitaciones y supuestos del proyecto
+## Limitaciones actuales
 
-## Decisiones técnicas iniciales
-
-Durante la Fase 1 se definieron las siguientes decisiones técnicas:
-
-Utilizar el dataset del World Food Programme por su cobertura internacional y disponibilidad de registros históricos.
-Delimitar el análisis a países europeos para mantener coherencia con la problemática.
-Considerar el período 2020-2025 para observar datos previos, contemporáneos y posteriores al inicio del conflicto.
-Trabajar con precios en USD para facilitar la comparación entre países.
-Documentar valores faltantes, duplicados, tipos de variables e inconsistencias antes de realizar transformaciones definitivas.
-Mantener una estructura de carpetas que separe datos originales, datos procesados, notebooks, documentación y resultados.
-
-## Limitaciones iniciales
-
-En esta fase se reconocen algunas limitaciones preliminares:
-
-La disponibilidad de datos puede variar entre países.
-No todos los productos alimentarios tienen la misma frecuencia de registro.
-Las variaciones de precios pueden estar influidas por factores distintos al conflicto Rusia-Ucrania, como inflación local, políticas públicas, costos energéticos o fluctuaciones cambiarias.
-En Fase 1 no se establecen conclusiones causales, sino que se prepara el entorno técnico y metodológico para análisis posteriores.
+* El dataset no contiene información para la totalidad de los países europeos.
+* La cobertura temporal y geográfica varía según el país.
+* Existen factores externos que pueden influir en los precios observados, tales como inflación local, políticas económicas, costos energéticos y condiciones climáticas.
+* Los resultados obtenidos permitirán identificar asociaciones y tendencias, pero no establecer relaciones causales directas.
 
