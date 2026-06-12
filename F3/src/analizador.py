@@ -1,6 +1,28 @@
 import pandas as pd
 
-class AnalizadorVariacionPrecios:
+
+class AnalizadorBase:
+    """
+    Clase base para todos los analizadores del proyecto.
+
+    Define la estructura general que deberán seguir
+    las clases derivadas.
+    """
+
+    def __init__(self, df):
+        self._df = df
+
+    def analizar(self):
+        """
+        Método genérico que será sobrescrito por las
+        clases hijas.
+        """
+        raise NotImplementedError(
+            "Las clases hijas deben implementar este método."
+        )
+
+
+class AnalizadorVariacionPrecios(AnalizadorBase):
     """
     Analiza la evolución anual de los precios de los
     productos alimentarios presentes en el dataset.
@@ -10,7 +32,14 @@ class AnalizadorVariacionPrecios:
         """
         Inicializa el analizador.
         """
-        self._df = df
+        super().__init__(df)
+
+    def analizar(self):
+        """
+        Implementación específica del método analizar.
+        """
+
+        return self.calcular_variaciones_anuales()
 
     def calcular_precios_promedio_anuales(self):
         """
@@ -51,3 +80,21 @@ class AnalizadorVariacionPrecios:
         )
 
         return precios
+
+
+class AnalizadorEstadistico(AnalizadorBase):
+    """
+    Genera estadísticas descriptivas sobre
+    los precios del dataset.
+    """
+
+    def __init__(self, df):
+        super().__init__(df)
+
+    def analizar(self):
+        """
+        Implementación específica para análisis
+        estadístico.
+        """
+
+        return self._df["usdprice"].describe()
