@@ -2,50 +2,73 @@
 
 ## Descripción del proyecto
 
-Este proyecto tiene como objetivo analizar la evolución de los precios de alimentos en Europa durante el período 2020-2025, considerando como contexto el conflicto Rusia-Ucrania y sus posibles efectos sobre los mercados alimentarios.
+Este proyecto académico tiene como objetivo analizar la evolución de los precios de alimentos en Europa durante el período 2020-2025, considerando como contexto el conflicto Rusia-Ucrania y sus posibles efectos sobre los mercados alimentarios.
 
-El análisis utiliza información proveniente de la base de datos **World Food Programme Global Food Prices Database (WFP)**. El proyecto se desarrolla progresivamente mediante las fases definidas en la asignatura, incorporando procesos de obtención, limpieza, transformación, validación y análisis de datos utilizando herramientas del ecosistema científico de Python.
+El análisis utiliza información proveniente de la base de datos **World Food Programme Global Food Prices Database (WFP)**. El proyecto se desarrolla progresivamente mediante las fases definidas en la asignatura **MCDI500 — Herramientas de software científico**, incorporando procesos de definición del problema, obtención de datos, limpieza, transformación, validación, análisis algorítmico, medición de eficiencia y Programación Orientada a Objetos en Python.
 
-Actualmente el repositorio contiene el desarrollo de las fases F1 y F2 del proyecto.
+El desarrollo se organiza en tres fases principales:
+
+* **Fase 1:** definición del problema, objetivos, estructura del proyecto y entorno reproducible.
+* **Fase 2:** obtención, consolidación, limpieza, transformación y validación del dataset.
+* **Fase 3:** construcción del núcleo algorítmico mediante programación estructurada, recursividad, medición de complejidad y Programación Orientada a Objetos.
+
+---
+
+## Integrantes
+
+* Franco Reyes Koch
+* Renato Villazón Martínez
+* Fabian Castillo Rojas
 
 ---
 
 ## Objetivo general
 
-Analizar la evolución de los precios de alimentos en países europeos disponibles dentro del conjunto de datos del WFP durante el período 2020-2025, con el fin de identificar tendencias y posibles efectos asociados al contexto del conflicto Rusia-Ucrania.
+Analizar la evolución de los precios de alimentos en países europeos disponibles dentro del conjunto de datos del WFP durante el período 2020-2025, con el fin de identificar tendencias, variaciones y posibles efectos asociados al contexto del conflicto Rusia-Ucrania.
 
 ---
 
 ## Objetivos específicos
 
 * Configurar un entorno reproducible utilizando Python, Git, GitHub y Jupyter Notebook.
-* Consolidar los archivos de datos correspondientes al período 2020-2025.
-* Realizar procesos de limpieza y validación del conjunto de datos.
-* Transformar variables relevantes para análisis temporal.
+* Consolidar archivos de datos correspondientes al período 2020-2025.
+* Realizar procesos de limpieza, transformación y validación del conjunto de datos.
 * Filtrar los países europeos disponibles dentro de la cobertura del WFP.
-* Generar un dataset procesado para las siguientes fases de análisis exploratorio y evaluación de resultados.
+* Generar un dataset procesado que sirva como base para fases posteriores.
+* Diseñar funciones y algoritmos para analizar variaciones en los precios de alimentos.
+* Implementar un algoritmo recursivo y medir su eficiencia computacional.
+* Refactorizar parte del flujo de análisis hacia una arquitectura orientada a objetos.
+* Aplicar principios de encapsulamiento, herencia y polimorfismo en el núcleo algorítmico del proyecto.
+* Documentar el proceso técnico mediante notebooks, scripts, comentarios, docstrings y control de versiones.
 
 ---
 
 ## Dataset
 
-**Fuente de datos:**
+### Fuente de datos
 
-World Food Programme Global Food Prices Database (WFP)
+**World Food Programme Global Food Prices Database (WFP)**
 
-**Período analizado:**
+### Período analizado
 
 2020-2025
 
-**Variables principales:**
+### Variables principales
 
 * País (`countryiso3`)
 * Fecha (`date`)
+* Región administrativa (`admin1`, `admin2`)
 * Mercado (`market`)
 * Categoría (`category`)
 * Producto (`commodity`)
+* Moneda (`currency`)
+* Unidad de medida (`unit`)
 * Precio local (`price`)
-* Precio en USD (`usdprice`)
+* Precio en dólares estadounidenses (`usdprice`)
+* Latitud (`latitude`)
+* Longitud (`longitude`)
+
+La variable principal para el análisis comparativo es `usdprice`, ya que permite comparar precios entre países utilizando una moneda común.
 
 ---
 
@@ -54,10 +77,14 @@ World Food Programme Global Food Prices Database (WFP)
 * Python 3.12
 * Pandas
 * NumPy
-* Matplotlib
 * Jupyter Notebook
 * Git
 * GitHub
+* Módulos estándar de Python:
+
+  * `pathlib`
+  * `timeit`
+  * `abc`
 
 ---
 
@@ -70,104 +97,272 @@ food-price-analysis/
 ├── requirements.txt
 ├── .gitignore
 │
+│
+│
 ├── F1/
 │   ├── data/
+│   │   ├── wfp_food_prices_global_2020.csv
+│   │   ├── wfp_food_prices_global_2021.csv
+│   │   ├── wfp_food_prices_global_2022.csv
+│   │   ├── wfp_food_prices_global_2023.csv
+│   │   ├── wfp_food_prices_global_2024.csv
+│   │   └── wfp_food_prices_global_2025.csv
+│   │
 │   ├── notebooks/
+│   │   └── F1_Definicion.ipynb
 │   ├── docs/
 │   └── results/
 │
-└── F2/
+├── F2/
+│   ├── data/
+│   │   └── processed/
+│   │       └── wfp_europe_2020_2025_clean.csv
+│   ├── notebooks/
+│   │   └── F2_Preprocesamiento.ipynb
+│   ├── docs/
+│   ├── results/
+│   └── src/
+│
+└── F3/
     ├── data/
-    │   └── processed/
+    │   └── wfp_europe_2020_2025_clean.csv
     ├── notebooks/
-    │   └── F2_Preprocesamiento.ipynb
+    │   └── F3_Nucleo_Algoritmico.ipynb
+    ├── src/
+    │   ├── preprocesador.py
+    │   ├── analizador.py
+    │   ├── algoritmos.py
+    │   └── pipeline.py
     ├── docs/
-    ├── results/
-    └── src/
+    └── results/
 ```
 
 ---
 
 ## Fase 1: Definición del proyecto
 
-Durante esta fase se definió la problemática, el alcance, los objetivos y la estructura técnica del proyecto. Además, se configuró el entorno reproducible mediante Git, GitHub, Jupyter Notebook y gestión de dependencias.
+Durante la Fase 1 se definió la problemática central del proyecto, relacionada con la evolución de los precios de alimentos en Europa durante el período 2020-2025 y el contexto del conflicto Rusia-Ucrania.
 
-**Notebook principal:**
+En esta etapa se desarrollaron las siguientes actividades:
 
-* `F1/notebooks/F1_Definicion.ipynb`
+* Definición de la problemática.
+* Formulación de la pregunta de investigación.
+* Definición del objetivo general y objetivos específicos.
+* Configuración inicial del entorno de trabajo.
+* Creación de la estructura base del repositorio.
+* Creación del notebook inicial del proyecto.
+* Documentación inicial en `README.md`.
+* Definición de dependencias en `requirements.txt`.
+
+### Notebook principal
+
+```text
+F1/notebooks/F1_Definicion.ipynb
+```
 
 ---
 
 ## Fase 2: Preprocesamiento y validación de datos
 
-Durante esta fase se implementó un pipeline reproducible de procesamiento de datos que incluye:
+Durante la Fase 2 se implementó un pipeline reproducible de obtención, limpieza, transformación y validación de datos. Esta fase permitió generar un dataset procesado que sirve como base para las fases posteriores del proyecto.
 
-* Carga automatizada de archivos CSV.
-* Consolidación de datos 2020-2025.
-* Revisión de calidad de datos.
-* Detección de valores faltantes.
-* Conversión de fechas.
-* Creación de variables temporales.
-* Filtrado de países europeos.
-* Limpieza de registros con valores faltantes críticos.
-* Validación del dataset resultante.
-* Exportación de una versión procesada del conjunto de datos.
+Las principales actividades realizadas fueron:
 
-**Notebook principal:**
+* Carga automatizada de archivos CSV anuales.
+* Consolidación de datos del período 2020-2025.
+* Diagnóstico inicial del dataset.
+* Revisión de duplicados.
+* Revisión de valores faltantes.
+* Conversión de la variable `date` a formato de fecha.
+* Creación de variables temporales `year` y `month`.
+* Filtrado de países europeos disponibles en la base.
+* Eliminación de registros con valores nulos en `usdprice`.
+* Conservación justificada de nulos en variables geográficas no críticas.
+* Validación técnica del dataset resultante.
+* Exportación del dataset limpio.
 
-* `F2/notebooks/F2_Preprocesamiento.ipynb`
+### Notebook principal
 
-**Dataset generado:**
+```text
+F2/notebooks/F2_Preprocesamiento.ipynb
+```
 
-* `F2/data/processed/wfp_europe_2020_2025_clean.csv`
+### Dataset procesado generado
+
+```text
+F2/data/processed/wfp_europe_2020_2025_clean.csv
+```
+
+El dataset procesado queda compuesto por registros europeos disponibles en la base WFP durante el período 2020-2025. Este archivo constituye la entrada principal para la Fase 3.
 
 ---
 
-## Reproducibilidad
+## Fase 3: Núcleo algorítmico y Programación Orientada a Objetos
 
-### Crear entorno virtual
+La Fase 3 se construye sobre el dataset procesado en la Fase 2. Por este motivo, no se vuelve a ejecutar la limpieza completa desde los archivos raw. En cambio, se reutiliza el archivo `wfp_europe_2020_2025_clean.csv` y se encapsulan en clases las operaciones necesarias para preparar, validar y analizar los datos.
 
-```bash
-python -m venv .venv
+El foco de esta etapa está en el diseño algorítmico, la eficiencia computacional y la Programación Orientada a Objetos.
+
+### Objetivo de la Fase 3
+
+Construir un núcleo algorítmico modular y reproducible para analizar variaciones en los precios de alimentos, aplicando programación estructurada, recursividad, medición de complejidad y Programación Orientada a Objetos.
+
+### Notebook principal
+
+```text
+F3/notebooks/F3_Nucleo_Algoritmico.ipynb
 ```
 
-### Activar entorno
+### Scripts principales
 
-Windows:
-
-```bash
-.venv\Scripts\activate
+```text
+F3/src/preprocesador.py
+F3/src/analizador.py
+F3/src/algoritmos.py
+F3/src/pipeline.py
 ```
 
-### Instalar dependencias
+---
 
-```bash
-pip install -r requirements.txt
+## Arquitectura de Fase 3
+
+La arquitectura de Fase 3 se organiza en módulos con responsabilidades separadas:
+
+| Archivo            | Componente                   | Responsabilidad                                                                          |
+| ------------------ | ---------------------------- | ---------------------------------------------------------------------------------------- |
+| `preprocesador.py` | `Preprocesador`              | Cargar el dataset procesado de Fase 2 y preparar los datos para el análisis algorítmico. |
+| `analizador.py`    | `AnalizadorBase`             | Definir una clase base para los analizadores del proyecto.                               |
+| `analizador.py`    | `AnalizadorVariacionPrecios` | Calcular precios promedio anuales y variaciones porcentuales por producto.               |
+| `analizador.py`    | `AnalizadorEstadistico`      | Generar estadísticas descriptivas sobre la variable `usdprice`.                          |
+| `algoritmos.py`    | `merge_sort`                 | Implementar un algoritmo recursivo de ordenamiento.                                      |
+| `pipeline.py`      | `PipelineAnalisis`           | Coordinar la ejecución completa del flujo de análisis.                                   |
+
+---
+
+## Programación Orientada a Objetos en Fase 3
+
+En esta fase se incorporan principios de Programación Orientada a Objetos para mejorar la organización, reutilización y mantenibilidad del código.
+
+### Encapsulamiento
+
+El encapsulamiento se aplica manteniendo atributos internos protegidos, como `_df` y `_ruta_csv`, dentro de las clases. Esto permite controlar el acceso al estado interno del objeto y evitar modificaciones accidentales desde fuera de la clase.
+
+### Herencia
+
+La clase `AnalizadorBase` funciona como clase base para distintos tipos de analizadores. A partir de ella se crean clases especializadas como:
+
+* `AnalizadorVariacionPrecios`
+* `AnalizadorEstadistico`
+
+Estas clases reutilizan la estructura común definida en la clase base y especializan el comportamiento según el tipo de análisis.
+
+### Polimorfismo
+
+El polimorfismo se aplica mediante el método común `analizar()`. Cada clase hija implementa este método de forma diferente:
+
+* `AnalizadorVariacionPrecios.analizar()` calcula variaciones anuales de precios.
+* `AnalizadorEstadistico.analizar()` genera estadísticas descriptivas.
+
+Esto permite ejecutar distintos analizadores mediante una interfaz común.
+
+---
+
+## Algoritmo recursivo
+
+La Fase 3 incluye una implementación del algoritmo `merge_sort`, utilizado como ejemplo de recursividad y estrategia de divide y vencerás.
+
+El algoritmo se compone de:
+
+* Caso base: listas de tamaño menor o igual a 1.
+* Caso recursivo: división de la lista en dos mitades.
+* Fusión de resultados: combinación ordenada de las listas parciales.
+
+Este algoritmo permite evidenciar el uso de recursividad dentro del proyecto y analizar su eficiencia computacional.
+
+---
+
+## Eficiencia y optimización
+
+En el notebook de Fase 3 se realizan mediciones de tiempo utilizando `timeit`, comparando la implementación recursiva de `merge_sort` con la función nativa `sorted()` de Python.
+
+La comparación permite observar diferencias de rendimiento entre una implementación académica en Python puro y una función interna optimizada del lenguaje.
+
+Aunque ambos enfoques presentan una complejidad temporal promedio de orden `O(n log n)`, `sorted()` suele ser más eficiente en la práctica debido a que utiliza una implementación altamente optimizada.
+
+
+
+## Ejecución de Fase 3
+
+Desde el notebook de Fase 3 se importan los módulos ubicados en `F3/src/` y se ejecuta el flujo principal del análisis.
+
+Ejemplo general:
+
+```python
+from pipeline import PipelineAnalisis
+
+pipeline = PipelineAnalisis("../data/wfp_europe_2020_2025_clean.csv")
+
+variaciones, estadisticas = pipeline.ejecutar()
 ```
 
-### Ejecutar notebooks
+El resultado principal corresponde a:
 
-Abrir Jupyter Notebook o PyCharm y ejecutar los notebooks correspondientes a cada fase.
+* Tabla de precios promedio anuales por producto.
+* Tabla de variaciones porcentuales año a año.
+* Estadísticas descriptivas de `usdprice`.
+* Medición de eficiencia del algoritmo recursivo.
 
 ---
 
 ## Control de versiones
 
-El proyecto utiliza Git y GitHub para garantizar trazabilidad y reproducibilidad.
+El proyecto utiliza Git y GitHub para garantizar trazabilidad, reproducibilidad y trabajo colaborativo.
 
-Ejemplos de commits realizados durante el desarrollo:
+Ejemplos de commits asociados al desarrollo:
 
-* Inicializa estructura del proyecto.
-* Implementa notebook F1 definición.
-* Actualiza dependencias para entorno reproducible.
-* Implementa pipeline de preprocesamiento y validación F2.
+```text
+feat: implementa estructura inicial del proyecto
+feat: agrega notebook de definicion F1
+feat: implementa pipeline de preprocesamiento F2
+feat: exporta dataset limpio de precios europeos
+feat: agrega nucleo algoritmico F3
+feat: implementa clases para analisis de precios
+feat: agrega algoritmo recursivo merge sort
+docs: actualiza README con descripcion de Fase 3
+```
 
 ---
 
-## Limitaciones actuales
+## Limitaciones del proyecto
 
 * El dataset no contiene información para la totalidad de los países europeos.
-* La cobertura temporal y geográfica varía según el país.
-* Existen factores externos que pueden influir en los precios observados, tales como inflación local, políticas económicas, costos energéticos y condiciones climáticas.
-* Los resultados obtenidos permitirán identificar asociaciones y tendencias, pero no establecer relaciones causales directas.
+* La cobertura temporal y geográfica varía según país, mercado y producto.
+* Los precios pueden estar influenciados por múltiples factores externos, como inflación local, costos energéticos, políticas económicas, transporte, estacionalidad y condiciones climáticas.
+* El análisis permite identificar tendencias y asociaciones, pero no establece relaciones causales directas.
+* El uso de precios promedio puede ocultar diferencias entre mercados, regiones o unidades de medida.
+* La comparación antes y después del conflicto debe interpretarse como un análisis exploratorio, no como una prueba causal definitiva.
 
+---
+
+## Próximas mejoras
+
+* Incorporar análisis mensual para observar variaciones más detalladas en torno a febrero de 2022.
+* Comparar precios promedio antes y después del inicio del conflicto.
+* Incorporar visualizaciones temporales por país, producto y categoría.
+* Evaluar productos con mayores aumentos relativos.
+* Robustecer la validación técnica mediante pruebas adicionales.
+* Extender la arquitectura POO incorporando nuevas clases de análisis.
+* Exportar tablas y gráficos relevantes a la carpeta `F3/results/`.
+
+---
+
+## Bibliografía
+
+* McKinney, W. (2022). *Python for Data Analysis* (3rd ed.). O’Reilly Media.
+* The pandas development team. (2025). *pandas documentation*. https://pandas.pydata.org/docs/
+* NumPy Developers. (2025). *NumPy documentation*. https://numpy.org/doc/
+* Project Jupyter. (2025). *Jupyter documentation*. https://docs.jupyter.org/
+* World Food Programme. (2025). *Global Food Prices Database*. Humanitarian Data Exchange.
+* Salinas, O. (2026). *Programación orientada a objetos aplicada a la ciencia de datos* [Material docente]. Universidad Andrés Bello.
+* Salinas, O. (2026). *Limpieza y transformación de datos tabulares con Pandas* [Material docente]. Universidad Andrés Bello.
+* Gamma, E., Helm, R., Johnson, R., & Vlissides, J. (1995). *Design Patterns: Elements of Reusable Object-Oriented Software*. Addison-Wesley.
