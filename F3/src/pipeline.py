@@ -34,6 +34,9 @@ class PipelineAnalisis:
         self._df = (
             preprocesador
             .cargar()
+            .convertir_fechas()
+            .eliminar_nulos_usdprice()
+            .validar()
             .obtener_dataframe()
         )
 
