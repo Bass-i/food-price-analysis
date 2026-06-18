@@ -2,43 +2,67 @@ from pathlib import Path
 import pandas as pd
 
 
+PAISES_EUROPA = [
+    "ALB", "AUT", "BEL", "BGR", "BIH", "BLR", "CHE", "CYP", "CZE",
+    "DEU", "DNK", "ESP", "EST", "FIN", "FRA", "GBR", "GRC",
+    "HRV", "HUN", "IRL", "ITA", "LTU", "LVA", "MDA", "MKD",
+    "NLD", "NOR", "POL", "PRT", "ROU", "RUS", "SRB", "SVK", "SVN",
+    "SWE", "TUR", "UKR",
+]
+
+
 class Preprocesador:
     """
-    Clase responsable de cargar y entregar el dataset procesado
-    generado durante la Fase 2.
-
-    Aplica encapsulamiento manteniendo el DataFrame como un atributo
-    interno protegido.
+    Encapsula el pipeline de preprocesamiento
+    utilizado en la Fase 3.
     """
 
-    def __init__(self, ruta_csv):
-        """
-        Inicializa la clase con la ruta del archivo CSV.
-        """
-        self._ruta_csv = Path(ruta_csv)
+    def __init__(self, rutas_csv):
+
+        self._rutas_csv = rutas_csv
         self._df = None
 
-    def cargar(self):
-        """
-        Carga el archivo CSV en memoria.
-        """
-        self._df = pd.read_csv(self._ruta_csv)
+    def cargar_archivos(self):
+
+        dfs = []
+
+        for ruta in self._rutas_csv:
+
+            print(f"Cargando: {ruta}")
+
+            dfs.append(
+                pd.read_csv(ruta)
+            )
+
+        self._df = pd.concat(
+            dfs,
+            ignore_index=True
+        )
 
         print(
-            f"Dataset cargado correctamente: "
+            f"Dataset consolidado: "
             f"{self._df.shape[0]} filas, "
             f"{self._df.shape[1]} columnas"
         )
 
         return self
 
-    def obtener_dataframe(self):
-        """
-        Retorna el DataFrame cargado.
-        """
-        return self._df
+    def filtrar_europa(self):
+
+        self._df = self._df[
+            self._df["countryiso3"]
+            .isin(PAISES_EUROPA)
+        ]
+
+        print(
+            f"Registros europeos: "
+            f"{len(self._df)}"
+        )
+
+        return self
 
     def convertir_fechas(self):
+
         self._df["date"] = pd.to_datetime(
             self._df["date"],
             errors="coerce"
@@ -55,6 +79,7 @@ class Preprocesador:
         return self
 
     def eliminar_nulos_usdprice(self):
+
         self._df = self._df.dropna(
             subset=["usdprice"]
         )
@@ -62,16 +87,17 @@ class Preprocesador:
         return self
 
     def validar(self):
+
         assert (
-                self._df.duplicated().sum() == 0
+            self._df.duplicated().sum() == 0
         ), "Existen registros duplicados."
 
         assert (
-                self._df["usdprice"]
-                .isna()
-                .sum()
-                == 0
-        ), "Existen valores nulos en usdprice."
+            self._df["usdprice"]
+            .isna()
+            .sum()
+            == 0
+        ), "Existen nulos en usdprice."
 
         assert (
             self._df["year"]
@@ -84,3 +110,7 @@ class Preprocesador:
         )
 
         return self
+
+    def obtener_dataframe(self):
+
+        return self._df

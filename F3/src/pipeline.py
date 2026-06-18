@@ -33,7 +33,8 @@ class PipelineAnalisis:
 
         self._df = (
             preprocesador
-            .cargar()
+            .cargar_archivos()
+            .filtrar_europa()
             .convertir_fechas()
             .eliminar_nulos_usdprice()
             .validar()
