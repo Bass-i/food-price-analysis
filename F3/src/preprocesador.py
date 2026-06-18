@@ -221,9 +221,68 @@ class Preprocesador:
         return self
 
     def eliminar_nulos_usdprice(self):
+        """
+        Elimina los registros con valor nulo en usdprice.
 
-        self._df = self._df.dropna(
-            subset=["usdprice"]
+        usdprice es la variable crítica del análisis comparativo
+        entre países. Los registros sin precio en USD no aportan
+        información útil y son descartados. Los nulos en variables
+        geográficas no críticas (admin1, admin2, latitude, longitude)
+        se conservan deliberadamente.
+
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
+
+        Complejidad
+        -----------
+        O(n) donde n es el número de filas del DataFrame.
+        """
+
+        antes = len(self._df)
+
+        self._df = self._df.dropna(subset=["usdprice"])
+
+        eliminados = antes - len(self._df)
+
+        print(
+            f"Nulos eliminados en usdprice: {eliminados:,} filas. "
+            f"Registros restantes: {len(self._df):,}"
+        )
+
+        return self
+
+    def normalizar_usdprice(self):
+        """
+        Crea la variable usdprice_zscore como versión normalizada
+        de usdprice mediante estandarización z-score.
+
+        La normalización permite comparar precios entre productos
+        con escalas muy distintas. La fórmula aplicada es:
+
+            z = (x - media) / desviacion_estandar
+
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
+
+        Complejidad
+        -----------
+        O(n) donde n es el número de filas del DataFrame.
+        """
+
+        media = self._df["usdprice"].mean()
+        std = self._df["usdprice"].std()
+
+        self._df["usdprice_zscore"] = (
+            (self._df["usdprice"] - media) / std
+        )
+
+        print(
+            f"Normalización z-score aplicada. "
+            f"Media: {media:.4f}, Desv. estándar: {std:.4f}"
         )
 
         return self
