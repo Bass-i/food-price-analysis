@@ -2,6 +2,11 @@ from pathlib import Path
 import pandas as pd
 
 
+COLUMNAS_REQUERIDAS = [
+    "date", "countryiso3", "commodity",
+    "usdprice", "market", "category",
+]
+
 PAISES_EUROPA = [
     "ALB", "AUT", "BEL", "BGR", "BIH", "BLR", "CHE", "CYP", "CZE",
     "DEU", "DNK", "ESP", "EST", "FIN", "FRA", "GBR", "GRC",
@@ -13,35 +18,104 @@ PAISES_EUROPA = [
 
 class Preprocesador:
     """
-    Encapsula el pipeline de preprocesamiento
-    utilizado en la Fase 3.
+    Encapsula el pipeline completo de preprocesamiento
+    desde archivos raw hasta un DataFrame limpio y validado.
+
+    Opera sobre una carpeta que contiene archivos CSV anuales
+    de la base Global Food Prices del WFP. Realiza carga,
+    consolidación, filtrado geográfico, conversión de fechas,
+    tratamiento de nulos, normalización y validación.
+
+    Parámetros
+    ----------
+    carpeta_raw : str o Path
+        Ruta a la carpeta que contiene los archivos CSV anuales.
+        Los archivos deben tener extensión .csv.
+
+    Atributos
+    ---------
+    _carpeta_raw : Path
+        Ruta interna a la carpeta de archivos raw.
+    _df : pd.DataFrame o None
+        DataFrame interno que acumula las transformaciones.
+        Vale None hasta que se invoca cargar_archivos().
+
+    Ejemplo
+    -------
+    >>> prep = Preprocesador("../../F1/data")
+    >>> df = (prep
+    ...     .cargar_archivos()
+    ...     .validar_columnas_requeridas()
+    ...     .filtrar_europa()
+    ...     .convertir_fechas()
+    ...     .eliminar_nulos_usdprice()
+    ...     .normalizar_usdprice()
+    ...     .validar()
+    ...     .obtener_dataframe())
     """
 
-    def __init__(self, rutas_csv):
+    def __init__(self, carpeta_raw):
 
-        self._rutas_csv = rutas_csv
+        self._carpeta_raw = Path(carpeta_raw)
         self._df = None
 
     def cargar_archivos(self):
+        """
+        Carga todos los archivos CSV presentes en la carpeta raw
+        y los consolida en un único DataFrame.
+
+        Agrega la variable archivo_origen para mantener trazabilidad
+        del origen de cada registro. Los archivos se buscan
+        automáticamente mediante glob("*.csv").
+
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
+
+        Excepciones
+        -----------
+        FileNotFoundError
+            Si la carpeta indicada no existe.
+        ValueError
+            Si no se encuentran archivos CSV en la carpeta.
+
+        Complejidad
+        -----------
+        O(n) donde n es el número total de registros en todos los CSV.
+        """
+
+        if not self._carpeta_raw.exists():
+            raise FileNotFoundError(
+                f"La carpeta no existe: {self._carpeta_raw}"
+            )
+
+        archivos = sorted(self._carpeta_raw.glob("*.csv"))
+
+        if not archivos:
+            raise ValueError(
+                f"No se encontraron archivos CSV en: {self._carpeta_raw}"
+            )
 
         dfs = []
 
-        for ruta in self._rutas_csv:
+        for ruta in archivos:
 
-            print(f"Cargando: {ruta}")
+            try:
+                df_parcial = pd.read_csv(ruta)
+                df_parcial["archivo_origen"] = ruta.name
+                dfs.append(df_parcial)
+                print(f"  Cargado: {ruta.name} "
+                      f"({len(df_parcial):,} filas)")
 
-            dfs.append(
-                pd.read_csv(ruta)
-            )
+            except Exception as error:
+                print(f"  Advertencia: no se pudo cargar {ruta.name} — {error}")
 
-        self._df = pd.concat(
-            dfs,
-            ignore_index=True
-        )
+        self._df = pd.concat(dfs, ignore_index=True)
 
         print(
-            f"Dataset consolidado: "
-            f"{self._df.shape[0]} filas, "
+            f"\nDataset consolidado: "
+            f"{self._df.shape[0]:,} filas, "
             f"{self._df.shape[1]} columnas"
         )
 
