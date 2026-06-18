@@ -333,4 +333,27 @@ class Preprocesador:
 
     def obtener_dataframe(self):
 
-        return self._df
+        """
+        Retorna una copia del DataFrame procesado.
+
+        Se retorna una copia para proteger el estado interno
+        del objeto ante modificaciones externas.
+
+        Retorna
+        -------
+        pd.DataFrame
+            Copia del DataFrame con todas las transformaciones aplicadas.
+
+        Excepciones
+        -----------
+        ValueError
+            Si se llama antes de haber ejecutado cargar_archivos().
+        """
+
+        if self._df is None:
+            raise ValueError(
+                "El DataFrame no ha sido inicializado. "
+                "Ejecute cargar_archivos() primero."
+            )
+
+        return self._df.copy()
