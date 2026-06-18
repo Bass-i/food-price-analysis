@@ -121,6 +121,44 @@ class Preprocesador:
 
         return self
 
+    def validar_columnas_requeridas(self):
+        """
+        Verifica que el DataFrame contenga todas las columnas
+        mínimas necesarias para el análisis.
+
+        Comprueba la presencia de las columnas definidas en
+        COLUMNAS_REQUERIDAS. Si alguna falta, lanza un error
+        descriptivo indicando cuáles columnas están ausentes.
+
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
+
+        Excepciones
+        -----------
+        ValueError
+            Si una o más columnas requeridas no están presentes.
+
+        Complejidad
+        -----------
+        O(c) donde c es el número de columnas requeridas.
+        """
+
+        faltantes = [
+            col for col in COLUMNAS_REQUERIDAS
+            if col not in self._df.columns
+        ]
+
+        if faltantes:
+            raise ValueError(
+                f"Columnas requeridas ausentes: {faltantes}"
+            )
+
+        print(f"Columnas requeridas verificadas: {COLUMNAS_REQUERIDAS}")
+
+        return self
+
     def filtrar_europa(self):
 
         self._df = self._df[
