@@ -187,20 +187,35 @@ class Preprocesador:
 
         return self
         
-
     def convertir_fechas(self):
+        """
+        Convierte la columna date a formato datetime y crea
+        las variables derivadas year y month.
 
+        Usa errors='coerce' para convertir fechas inválidas a NaT
+        en lugar de lanzar una excepción. Las variables year y month
+        se extraen como enteros desde el campo datetime.
+
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
+
+        Complejidad
+        -----------
+        O(n) donde n es el número de filas del DataFrame.
+        """
         self._df["date"] = pd.to_datetime(
             self._df["date"],
             errors="coerce"
         )
 
-        self._df["year"] = (
-            self._df["date"].dt.year
-        )
+        self._df["year"] = self._df["date"].dt.year
+        self._df["month"] = self._df["date"].dt.month
 
-        self._df["month"] = (
-            self._df["date"].dt.month
+        print(
+            f"Fechas convertidas. "
+            f"Rango: {self._df['year'].min()} – {self._df['year'].max()}"
         )
 
         return self
