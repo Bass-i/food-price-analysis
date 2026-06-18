@@ -160,18 +160,33 @@ class Preprocesador:
         return self
 
     def filtrar_europa(self):
+        """
+        Filtra el DataFrame conservando únicamente los registros
+        correspondientes a países europeos definidos en PAISES_EUROPA.
+
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
+
+        Complejidad
+        -----------
+        O(n) donde n es el número de filas del DataFrame.
+        """
+
+        antes = len(self._df)
 
         self._df = self._df[
-            self._df["countryiso3"]
-            .isin(PAISES_EUROPA)
-        ]
+            self._df["countryiso3"].isin(PAISES_EUROPA)
+        ].copy()
 
         print(
-            f"Registros europeos: "
-            f"{len(self._df)}"
+            f"Filtrado geográfico: {antes:,} → {len(self._df):,} filas "
+            f"({antes - len(self._df):,} eliminadas)"
         )
 
         return self
+        
 
     def convertir_fechas(self):
 
