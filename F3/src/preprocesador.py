@@ -288,26 +288,45 @@ class Preprocesador:
         return self
 
     def validar(self):
+        """
+        Ejecuta validaciones formales sobre el DataFrame procesado
+        mediante instrucciones assert.
 
-        assert (
-            self._df.duplicated().sum() == 0
-        ), "Existen registros duplicados."
+        Verifica que el dataset no contenga duplicados, que usdprice
+        no tenga valores nulos, y que todos los años estén dentro
+        del rango esperado 2020–2025.
 
-        assert (
-            self._df["usdprice"]
-            .isna()
-            .sum()
-            == 0
-        ), "Existen nulos en usdprice."
+        Retorna
+        -------
+        Preprocesador
+            La instancia actual (permite encadenamiento de métodos).
 
-        assert (
-            self._df["year"]
-            .between(2020, 2025)
-            .all()
-        ), "Existen años fuera del rango esperado."
+        Excepciones
+        -----------
+        AssertionError
+            Si alguna de las validaciones no se cumple.
+
+        Complejidad
+        -----------
+        O(n) donde n es el número de filas del DataFrame.
+        """
+
+        assert not self._df.empty, \
+            "El DataFrame está vacío."
+
+        assert self._df.duplicated().sum() == 0, \
+            "Existen registros duplicados."
+
+        assert self._df["usdprice"].isna().sum() == 0, \
+            "Existen nulos en usdprice."
+
+        assert self._df["year"].between(2020, 2025).all(), \
+            "Existen años fuera del rango esperado (2020–2025)."
 
         print(
-            "Validaciones superadas correctamente."
+            f"Validaciones superadas. "
+            f"Dataset final: {len(self._df):,} filas, "
+            f"{self._df.shape[1]} columnas."
         )
 
         return self
