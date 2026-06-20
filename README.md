@@ -6,11 +6,12 @@ Este proyecto académico tiene como objetivo analizar la evolución de los preci
 
 El análisis utiliza información proveniente de la base de datos **World Food Programme Global Food Prices Database (WFP)**. El proyecto se desarrolla progresivamente mediante las fases definidas en la asignatura **MCDI500 — Herramientas de software científico**, incorporando procesos de definición del problema, obtención de datos, limpieza, transformación, validación, análisis algorítmico, medición de eficiencia y Programación Orientada a Objetos en Python.
 
-El desarrollo se organiza en tres fases principales:
+El desarrollo se organiza en cuatro fases principales:
 
-* **Fase 1:** definición del problema, objetivos, estructura del proyecto y entorno reproducible.
-* **Fase 2:** obtención, consolidación, limpieza, transformación y validación del dataset.
-* **Fase 3:** construcción del núcleo algorítmico mediante programación estructurada, recursividad, medición de complejidad y Programación Orientada a Objetos.
+* Fase 1: definición del problema, objetivos, estructura del proyecto y entorno reproducible.
+* Fase 2: obtención, consolidación, limpieza, transformación y validación del dataset.
+* Fase 3: construcción del núcleo algorítmico mediante programación estructurada, recursividad, medición de complejidad y Programación Orientada a Objetos.
+* Fase 4: construcción de visualizaciones analíticas, interpretación de resultados y comunicación de hallazgos.
 
 ---
 
@@ -40,6 +41,9 @@ Analizar la evolución de los precios de alimentos en países europeos disponibl
 * Refactorizar parte del flujo de análisis hacia una arquitectura orientada a objetos.
 * Aplicar principios de encapsulamiento, herencia y polimorfismo en el núcleo algorítmico del proyecto.
 * Documentar el proceso técnico mediante notebooks, scripts, comentarios, docstrings y control de versiones.
+* Construir visualizaciones analíticas para comunicar los resultados obtenidos.
+* Interpretar tendencias y patrones identificados en los datos.
+* Integrar los hallazgos de las distintas fases en una comunicación analítica reproducible.
 
 ---
 
@@ -172,17 +176,27 @@ food-price-analysis/
 │   ├── results/
 │   └── src/
 │
-└── F3/
-    ├── notebooks/
-    │   └── F3_Nucleo_Algoritmico.ipynb
-    ├── src/
-    │   ├── preprocesador.py
-    │   ├── analizador.py
-    │   ├── algoritmos.py
-    │   └── pipeline.py
-    ├── docs/
-    └── results/
-        └── eficiencia_escalamiento.png
+├──F3/
+│    ├── notebooks/
+│    │   └── F3_Nucleo_Algoritmico.ipynb
+│    ├── src/
+│    │   ├── preprocesador.py
+│    │   ├── analizador.py
+│    │   ├── algoritmos.py
+│    │   └── pipeline.py
+│    ├── docs/
+│    └── results/
+│        └── eficiencia_escalamiento.png
+│
+├── F4/
+│   ├── notebooks/
+│   │   └── F4_Visualizacion_Resultados.ipynb
+│   ├── docs/
+│   ├── results/
+│   │   ├── grafico_precio_promedio.png
+│   │   ├── grafico_top_aumentos.png
+│   │   └── grafico_productos_seleccionados.png
+│   └── src/
 ```
 
 ---
@@ -395,6 +409,62 @@ assert merge_sort([3, 2, 1]) == [1, 2, 3]
 assert merge_sort([-1, 5, 0, -3]) == [-3, -1, 0, 5]
 assert merge_sort([4, 2, 4, 1]) == [1, 2, 4, 4]
 ```
+
+---
+
+## Fase 4: Visualización y comunicación de resultados
+
+La Fase 4 se enfoca en la comunicación visual de los resultados obtenidos durante las etapas anteriores. A partir del dataset preparado y validado mediante el pipeline implementado en Fase 3, se construyeron visualizaciones analíticas destinadas a identificar tendencias, variaciones y patrones relevantes en los precios de los alimentos en Europa durante el período 2020–2025.
+
+### Objetivo de la Fase 4
+
+Comunicar de manera clara y reproducible los principales hallazgos del proyecto mediante visualizaciones analíticas e interpretación de resultados.
+
+### Notebook principal
+
+
+F4/notebooks/F4_Visualizacion_Resultados.ipynb
+
+## Visualizaciones implementadas
+
+Evolución del precio promedio anual en Europa (2020–2025).
+Top 10 productos con mayores aumentos porcentuales de precio.
+Evolución temporal de productos seleccionados (Bread, Milk y Onions).
+
+## Principales Hallazgos
+
+Se observó una tendencia general de crecimiento en el precio promedio de los alimentos durante el período analizado.
+Los mayores incrementos porcentuales se concentraron principalmente en productos agrícolas frescos como repollo, cebolla, zanahoria y pepino.
+La evolución temporal mostró comportamientos diferenciados entre productos, evidenciando que el impacto sobre los precios no fue homogéneo.
+
+## Resultados generados
+
+F4/results/grafico_precio_promedio.png
+F4/results/grafico_top_aumentos.png
+F4/results/grafico_productos_seleccionados.png
+
+## Ejecución de Fase 4
+
+Para ejecutar la fase de visualización:
+
+```python
+import pandas as pd
+
+df = pd.read_csv(
+    "../../F2/data/processed/wfp_europe_2020_2025_clean.csv"
+)
+```
+## Notebook genera
+
+-Gráfico de evolución anual de precios.
+
+-Gráfico de mayores aumentos porcentuales.
+
+-Gráfico de evolución de productos seleccionados.
+
+-Interpretaciones analíticas.
+
+-Conclusiones finales del proyecto.
 
 ---
 
