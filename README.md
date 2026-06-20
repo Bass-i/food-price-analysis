@@ -131,8 +131,6 @@ La variable principal para el análisis comparativo es `usdprice`, ya que permit
 
 ## Tecnologías utilizadas
 
-## Tecnologías utilizadas
-
 - Python 3.12
 - pandas
 - NumPy
@@ -487,6 +485,11 @@ feat: agrega insertion_sort para comparacion de eficiencia
 feat: agrega validaciones con assert y casos limite
 feat: agrega grafico de escalamiento temporal
 docs: actualiza README con instrucciones de reproducibilidad
+feat: crea estructura inicial F4
+feat: agrega visualizacion de precios promedio
+feat: agrega grafico de mayores aumentos porcentuales
+feat: agrega evolucion temporal de productos
+feat: agrega interpretaciones y conclusiones F4
 ```
 
 ---
