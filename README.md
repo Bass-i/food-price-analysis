@@ -17,7 +17,6 @@ El desarrollo se organiza en cuatro fases principales:
 
 ## Integrantes
 
-* Franco Reyes Koch
 * Renato Villazón Martínez
 * Fabian Castillo Rojas
 
