@@ -446,10 +446,29 @@ F4/results/grafico_productos_seleccionados.png
 Para ejecutar la fase de visualización:
 
 ```python
-import pandas as pd
+import sys
+from pathlib import Path
 
-df = pd.read_csv(
-    "../../F2/data/processed/wfp_europe_2020_2025_clean.csv"
+sys.path.append("../../F3/src")
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from preprocesador import Preprocesador
+from analizador import AnalizadorVariacionPrecios
+
+preprocesador = Preprocesador("../../F1/data/raw")
+
+df = (
+    preprocesador
+    .cargar_archivos()
+    .validar_columnas_requeridas()
+    .filtrar_europa()
+    .convertir_fechas()
+    .eliminar_nulos_usdprice()
+    .normalizar_usdprice()
+    .validar()
+    .obtener_dataframe()
 )
 ```
 ## Notebook genera
